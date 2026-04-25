@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0a0f1e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Distrib Auto IA">
+<title>Distrib Auto IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #070c1a;
+    --bg2: #0d1526;
+    --bg3: #111c33;
+    --card: #131e35;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00d4ff;
+    --accent2: #00ff9d;
+    --accent3: #ff6b35;
+    --warn: #ffb800;
+    --danger: #ff3b5c;
+    --text: #e8edf5;
+    --muted: #5a6a8a;
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  html { height: 100%; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* SCROLL AREA */
+  .app-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* TOP HEADER */
+  .header {
+    background: rgba(7,12,26,0.98);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .header-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .header-logo span { color: var(--accent2); }
+  .header-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.3);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* PAGES */
+  .page { display: none; animation: fadeIn .25s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+  /* HERO */
+  .hero { padding: 24px 20px 0; }
+  .hero-greeting { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .hero-title { font-size: 26px; font-weight: 600; line-height: 1.2; margin-bottom: 4px; }
+  .hero-title em { color: var(--accent); font-style: normal; }
+  .hero-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+
+  /* KPI */
+  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 20px; margin-bottom: 10px; }
+  .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; position: relative; overflow: hidden; }
+  .kpi-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background: var(--kpi-color, var(--accent)); }
+  .kpi-label { font-size: 10px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; font-family: var(--mono); }
+  .kpi-value { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--kpi-color, var(--text)); }
+  .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .kpi-full { grid-column: 1/-1; }
+
+  /* PROGRESS */
+  .progress-wrap { margin: 0 20px 10px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .progress-label { font-size: 11px; color: var(--muted); font-family: var(--mono); letter-spacing: 1px; text-transform: uppercase; }
+  .progress-pct { font-family: var(--mono); font-size: 14px; color: var(--accent2); font-weight: 700; }
+  .progress-track { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent2), var(--accent)); transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+  .progress-amounts { display:flex; justify-content:space-between; margin-top:8px; font-size:11px; color:var(--muted); }
+
+  /* SECTION TITLE */
+  .section-title { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; padding: 16px 20px 10px; }
+
+  /* STATUS */
+  .status-list { padding: 0 20px; display: flex; flex-direction: column; gap: 8px; }
+  .status-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; }
+  .status-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 var(--dot-color)} 50%{box-shadow:0 0 0 4px transparent} }
+  .dot-green { --dot-color: var(--accent2); background:var(--accent2); }
+  .dot-orange { --dot-color: var(--warn); background:var(--warn); }
+  .dot-red { --dot-color: var(--danger); background:var(--danger); animation:none; }
+  .dot-grey { --dot-color: var(--muted); background:var(--muted); animation:none; }
+  .status-info { flex:1; }
+  .status-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+  .status-desc { font-size: 11px; color: var(--muted); }
+  .status-chip { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; padding: 3px 8px; border-radius: 10px; border: 1px solid; white-space: nowrap; }
+  .chip-green { color:var(--accent2); border-color:rgba(0,255,157,.25); background:rgba(0,255,157,.06); }
+  .chip-orange { color:var(--warn); border-color:rgba(255,184,0,.25); background:rgba(255,184,0,.06); }
+  .chip-red { color:var(--danger); border-color:rgba(255,59,92,.25); background:rgba(255,59,92,.06); }
+  .chip-grey { color:var(--muted); border-color:rgba(90,106,138,.25); background:rgba(90,106,138,.06); }
+
+  /* LINKS */
+  .links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 20px; }
+  .link-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; cursor: pointer; text-decoration: none; color: inherit; }
+  .link-icon { font-size: 22px; }
+  .link-name { font-size: 13px; font-weight: 500; }
+  .link-url { font-size: 10px; color: var(--muted); font-family: var(--mono); }
+
+  /* AUTO */
+  .auto-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin: 0 20px 10px; }
+  .auto-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .auto-num { font-family: var(--mono); font-size: 10px; color: var(--accent); background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); width:28px;height:28px; border-radius:8px; display:flex;align-items:center;justify-content:center; flex-shrink:0; }
+  .auto-title { font-size:14px;font-weight:600; }
+  .auto-trigger { font-size:11px;color:var(--muted);margin-bottom:10px; }
+  .auto-flow { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+  .flow-step { font-family: var(--mono); font-size: 9px; padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
+  .flow-arrow { color: var(--muted); font-size: 10px; }
+  .auto-webhook { margin-top:12px; background:rgba(0,0,0,0.3); border-radius:8px; padding:8px 10px; font-family:var(--mono); font-size:9px; color:var(--muted); word-break:break-all; border:1px solid var(--border); cursor:pointer; }
+  .auto-webhook span { color:var(--accent2); }
+
+  /* EQUIPE */
+  .team-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin: 0 20px 10px; display: flex; align-items: flex-start; gap: 14px; }
+  .team-avatar { width:46px;height:46px; border-radius:12px; display:flex;align-items:center;justify-content:center; font-size:18px; flex-shrink:0; border:1px solid var(--border); }
+  .team-name { font-size:15px;font-weight:600;margin-bottom:3px; }
+  .team-role { font-family:var(--mono); font-size:9px; letter-spacing:1.5px; color:var(--accent); text-transform:uppercase; margin-bottom:8px; }
+  .team-tags { display:flex;flex-wrap:wrap;gap:5px; }
+  .team-tag { font-size:10px; padding:2px 8px; border-radius:8px; background:rgba(255,255,255,0.05); color:var(--muted); border:1px solid var(--border); }
+
+  /* TODO */
+  .todo-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin: 0 20px 8px; overflow: hidden; }
+  .todo-item { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-check { width:20px;height:20px; border-radius:6px; border:2px solid var(--border); display:flex;align-items:center;justify-content:center; flex-shrink:0; font-size:11px; transition: all .2s; }
+  .todo-item.done .todo-check { background: var(--accent2); border-color: var(--accent2); color: #000; }
+  .todo-text { font-size:13px; flex:1; }
+  .todo-item.done .todo-text { color: var(--muted); text-decoration: line-through; }
+  .todo-prio { font-size:10px; padding:2px 6px; border-radius:6px; font-family:var(--mono); }
+  .prio-high { background:rgba(255,59,92,.12);color:var(--danger); }
+  .prio-med { background:rgba(255,184,0,.1);color:var(--warn); }
+  .prio-low { background:rgba(90,106,138,.1);color:var(--muted); }
+
+  /* BOTTOM NAV — toujours visible */
+  .bottom-nav {
+    flex-shrink: 0;
+    background: #0a1020;
+    border-top: 1px solid rgba(0,212,255,0.2);
+    display: flex;
+    padding: 10px 8px 14px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.6);
+  }
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 4px;
+    cursor: pointer;
+    opacity: 0.35;
+    font-family: var(--mono);
+    border-radius: 10px;
+    transition: all .2s;
+  }
+  .nav-item.active { opacity: 1; background: rgba(0,212,255,0.1); }
+  .nav-icon { font-size: 22px; }
+  .nav-label { font-size: 9px; letter-spacing: 0.5px; color: var(--muted); text-transform: uppercase; }
+  .nav-item.active .nav-label { color: var(--accent); }
+
+  /* MISC */
+  .alert-banner { margin: 0 20px 10px; background: rgba(255,184,0,0.07); border: 1px solid rgba(255,184,0,0.2); border-radius: 12px; padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; }
+  .alert-icon { font-size:16px;flex-shrink:0; }
+  .alert-text { font-size:12px;color:var(--warn);line-height:1.5; }
+  .alert-text strong { display:block;margin-bottom:2px;font-size:11px;letter-spacing:1px;font-family:var(--mono); }
+  .looker-btn { display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(0,255,157,0.06)); border: 1px solid rgba(0,212,255,0.25); border-radius: 12px; padding: 14px 16px; margin: 0 20px 10px; cursor: pointer; text-decoration: none; color: inherit; }
+  .looker-btn-icon { font-size:24px; }
+  .looker-btn-text { flex:1; }
+  .looker-btn-title { font-size:14px;font-weight:600;color:var(--accent); }
+  .looker-btn-sub { font-size:11px;color:var(--muted); }
+  .looker-btn-arrow { color:var(--muted);font-size:16px; }
+  .toast { position:fixed; bottom:90px;left:50%;transform:translateX(-50%) translateY(10px); background:#1a2b4a; border:1px solid var(--accent); color:var(--accent); font-family:var(--mono); font-size:11px; padding:8px 16px; border-radius:20px; opacity:0; transition:all .3s; pointer-events:none; z-index:999; white-space:nowrap; }
+  .toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
+  .spacer { height: 20px; }
+  .row-item { padding:12px 16px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;font-size:13px; }
+  .row-item:last-child { border-bottom:none; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">DISTRIB <span>AUTO</span> IA</div>
+  <div class="header-badge" id="live-date">— —</div>
+</div>
+
+<!-- SCROLL AREA -->
+<div class="app-scroll">
+
+<!-- PAGE HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-greeting">Tableau de bord</div>
+    <div class="hero-title">Bonjour, <em>Tim</em> 👋</div>
+    <div class="hero-sub">Distributeurs automatiques · IA · Menton</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-header">
+      <div class="progress-label">Objectif CA mensuel V1</div>
+      <div class="progress-pct" id="ca-pct">0%</div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="ca-bar" style="width:0%"></div>
+    </div>
+    <div class="progress-amounts">
+      <span id="ca-current">0 €</span>
+      <span>/ 800 €</span>
+    </div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card" style="--kpi-color:var(--accent2)">
+      <div class="kpi-label">Ventes aujourd'hui</div>
+      <div class="kpi-value" id="kpi-today">—</div>
+      <div class="kpi-sub">via Make → Sheets</div>
+    </div>
+    <div class="kpi-card" style="--kpi-color:var(--accent)">
+      <div class="kpi-label">Stock bas</div>
+      <div class="kpi-value">⚠️ 1</div>
+      <div class="kpi-sub">seuil alerte = 3</div>
+    </div>
+    <div class="kpi-card kpi-full" style="--kpi-color:var(--accent3)">
+      <div class="kpi-label">Automatisations Make</div>
+      <div class="kpi-value">2 <span style="font-size:12px;color:var(--muted)">/2 actifs</span></div>
+      <div class="kpi-sub">Scénario #1 (ventes) + #2 (récap 20h)</div>
+    </div>
+  </div>
+  <div class="alert-banner">
+    <div class="alert-icon">⚠️</div>
+    <div class="alert-text">
+      <strong>ACTION REQUISE</strong>
+      Compte Nayax non créé — webhook encore en mode test. Passer au vrai webhook dès que Nayax est actif.
+    </div>
+  </div>
+  <a class="looker-btn" href="https://datastudio.google.com/reporting/5a14a1db-7fb7-4c1d-b7bc-5807c74a1529" target="_blank">
+    <div class="looker-btn-icon">📊</div>
+    <div class="looker-btn-text">
+      <div class="looker-btn-title">Dashboard Looker Studio V1</div>
+      <div class="looker-btn-sub">Jauge CA · Ventes · Stocks · Produits</div>
+    </div>
+    <div class="looker-btn-arrow">↗</div>
+  </a>
+  <div class="spacer"></div>
+</div>
+
+<!-- PAGE OUTILS -->
+<div class="page" id="page-outils">
+  <div class="hero">
+    <div class="hero-greeting">Outils & Services</div>
+    <div class="hero-title">Stack <em>du projet</em></div>
+    <div class="hero-sub">Tous les services en un clic</div>
+  </div>
+  <div class="section-title">🟢 Actifs</div>
+  <div class="status-list">
+    <div class="status-card" onclick="window.open('https://mail.google.com')">
+      <div class="status-dot dot-green"></div>
+      <div class="status-info"><div class="status-name">Gmail Pro</div><div class="status-desc">distrib.auto.ia@gmail.com</div></div>
+      <div class="status-chip chip-green">ACTIF</div>
+    </div>
+    <div class="status-card" onclick="window.open('https://drive.google.com')">
+      <div class="status-dot dot-green"></div>
+      <div class="status-info"><div class="status-name">Google Drive</div><div class="status-desc">6 dossiers · Tim / Guillaume / Aurore</div></div>
+      <div class="status-chip chip-green">ACTIF</div>
+    </div>
+    <div class="status-card" onclick="window.open('https://make.com')">
+      <div class="status-dot dot-green"></div>
+      <div class="status-info"><div class="status-name">Make.com</div><div class="status-desc">2/2 scénarios · 1000 ops/mois gratuit</div></div>
+      <div class="status-chip chip-green">ACTIF</div>
+    </div>
+    <div class="status-card" onclick="window.open('https://slack.com')">
+      <div class="status-dot dot-green"></div>
+      <div class="status-info"><div class="status-name">Slack</div><div class="status-desc">#alertes · #ventes · #general</div></div>
+      <div class="status-chip chip-green">ACTIF</div>
+    </div>
+    <div class="status-card" onclick="window.open('https://app.brevo.com')">
+      <div class="status-dot dot-orange"></div>
+      <div class="status-info"><div class="status-name">Brevo</div><div class="status-desc">300 mails/jour · ⚠️ DKIM warning</div></div>
+      <div class="status-chip chip-orange">⚠️ DKIM</div>
+    </div>
+  </div>
+  <div class="section-title">🔴 À créer</div>
+  <div class="status-list">
+    <div class="status-card">
+      <div class="status-dot dot-red"></div>
+      <div class="status-info"><div class="status-name">Nayax</div><div class="status-desc">Gestion distributeurs + paiements + webhook</div></div>
+      <div class="status-chip chip-red">À CRÉER</div>
+    </div>
+    <div class="status-card">
+      <div class="status-dot dot-grey"></div>
+      <div class="status-info"><div class="status-name">Canva</div><div class="status-desc">Visuels TikTok / YouTube</div></div>
+      <div class="status-chip chip-grey">OPTIONNEL</div>
+    </div>
+  </div>
+  <div class="section-title">🔗 Liens rapides</div>
+  <div class="links-grid">
+    <a class="link-card" href="https://datastudio.google.com/reporting/5a14a1db-7fb7-4c1d-b7bc-5807c74a1529" target="_blank">
+      <div class="link-icon">📊</div><div class="link-name">Looker Studio</div><div class="link-url">Dashboard V1</div>
+    </a>
+    <a class="link-card" href="https://docs.google.com/spreadsheets" target="_blank">
+      <div class="link-icon">📋</div><div class="link-name">Google Sheets</div><div class="link-url">Suivi Ventes</div>
+    </a>
+    <a class="link-card" href="https://make.com" target="_blank">
+      <div class="link-icon">⚙️</div><div class="link-name">Make.com</div><div class="link-url">Automatisations</div>
+    </a>
+    <a class="link-card" href="https://app.brevo.com" target="_blank">
+      <div class="link-icon">📧</div><div class="link-name">Brevo</div><div class="link-url">Email marketing</div>
+    </a>
+  </div>
+  <div class="spacer"></div>
+</div>
+
+<!-- PAGE MAKE -->
+<div class="page" id="page-auto">
+  <div class="hero">
+    <div class="hero-greeting">Make.com · 2/2 actifs</div>
+    <div class="hero-title">Auto<em>matisations</em></div>
+    <div class="hero-sub">Scénarios en production</div>
+  </div>
+  <div class="auto-card">
+    <div class="auto-header">
+      <div class="auto-num">#1</div>
+      <div class="auto-title">Vente Nayax → Sheets + Slack + Brevo</div>
+    </div>
+    <div class="auto-trigger">⚡ Webhook custom (chaque vente)</div>
+    <div class="auto-flow">
+      <span class="flow-step">Webhook</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Sheets AddRow</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Filter Stock &lt;3</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Slack #alertes</span><span class="flow-arrow">+</span>
+      <span class="flow-step">Brevo email</span>
+    </div>
+    <div class="auto-webhook" onclick="copyWebhook()">
+      <span>WEBHOOK URL :</span><br>
+      https://hook.eu1.make.com/35ethfg4dn1mvcpw1b7afpcyij7ufgme
+      <br><span style="color:var(--accent);font-size:9px;margin-top:4px;display:block;">↑ Appuyer pour copier</span>
+    </div>
+  </div>
+  <div class="auto-card">
+    <div class="auto-header">
+      <div class="auto-num">#2</div>
+      <div class="auto-title">Récap fusionné quotidien + hebdo</div>
+    </div>
+    <div class="auto-trigger">⚡ Schedule — chaque jour à 20h00</div>
+    <div style="padding-left:10px;border-left:2px solid rgba(0,212,255,0.2);display:flex;flex-direction:column;gap:10px;">
+      <div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:4px;font-family:var(--mono);">ROUTE 1 — TOUJOURS</div>
+        <div class="auto-flow"><span class="flow-step">Slack #ventes</span><span style="font-size:10px;color:var(--muted);margin-left:4px;">récap journalier</span></
