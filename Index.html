@@ -444,13 +444,114 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);display:flex
   <div class="spacer"></div>
 </div>
 
+<!-- ===== STACK ===== -->
+<div class="page" id="page-stack">
+  <div class="hero">
+    <div class="hero-greeting">Architecture complète</div>
+    <div class="hero-title">Notre <em>Stack</em></div>
+    <div class="hero-sub">Tous les outils et leurs interactions</div>
+  </div>
+
+  <div style="margin:0 20px 10px;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+    <svg viewBox="0 0 960 800" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+      <defs>
+        <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#00d4ff" opacity=".7"/></marker>
+        <marker id="ag" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#00ff9d" opacity=".7"/></marker>
+        <marker id="ao" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#ffb800" opacity=".7"/></marker>
+        <marker id="ap" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#9b59b6" opacity=".7"/></marker>
+        <marker id="ar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#ff3b5c" opacity=".7"/></marker>
+        <marker id="as2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3z" fill="#8a9ab8" opacity=".7"/></marker>
+        <filter id="glow2"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <!-- LAYER BANDS -->
+      <rect x="8" y="20" width="944" height="85" rx="10" fill="rgba(255,107,53,0.04)" stroke="rgba(255,107,53,0.18)" stroke-width="1"/>
+      <text x="18" y="38" font-family="monospace" font-size="9" letter-spacing="2" fill="#ff6b35">COUCHE 1 — TERRAIN</text>
+      <rect x="8" y="120" width="944" height="85" rx="10" fill="rgba(255,184,0,0.04)" stroke="rgba(255,184,0,0.18)" stroke-width="1"/>
+      <text x="18" y="138" font-family="monospace" font-size="9" letter-spacing="2" fill="#ffb800">COUCHE 2 — PAIEMENT &amp; CONNECTEURS</text>
+      <rect x="8" y="220" width="944" height="85" rx="10" fill="rgba(0,212,255,0.04)" stroke="rgba(0,212,255,0.18)" stroke-width="1"/>
+      <text x="18" y="238" font-family="monospace" font-size="9" letter-spacing="2" fill="#00d4ff">COUCHE 3 — AUTOMATISATION</text>
+      <rect x="8" y="320" width="944" height="85" rx="10" fill="rgba(0,255,157,0.04)" stroke="rgba(0,255,157,0.18)" stroke-width="1"/>
+      <text x="18" y="338" font-family="monospace" font-size="9" letter-spacing="2" fill="#00ff9d">COUCHE 4 — STOCKAGE &amp; ANALYSE</text>
+      <rect x="8" y="420" width="944" height="85" rx="10" fill="rgba(155,89,182,0.04)" stroke="rgba(155,89,182,0.18)" stroke-width="1"/>
+      <text x="18" y="438" font-family="monospace" font-size="9" letter-spacing="2" fill="#9b59b6">COUCHE 5 — COMMUNICATION</text>
+      <rect x="8" y="520" width="944" height="85" rx="10" fill="rgba(255,59,92,0.04)" stroke="rgba(255,59,92,0.18)" stroke-width="1"/>
+      <text x="18" y="538" font-family="monospace" font-size="9" letter-spacing="2" fill="#ff3b5c">COUCHE 6 — INTERFACE &amp; IA</text>
+      <rect x="8" y="620" width="944" height="85" rx="10" fill="rgba(138,154,184,0.04)" stroke="rgba(138,154,184,0.18)" stroke-width="1"/>
+      <text x="18" y="638" font-family="monospace" font-size="9" letter-spacing="2" fill="#8a9ab8">COUCHE 7 — DEV &amp; DÉPLOIEMENT</text>
+      <!-- NODES C1 -->
+      <g transform="translate(160,62)"><rect x="-62" y="-26" width="124" height="52" rx="9" fill="#120a00" stroke="#ff6b35" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">🏧</text><text x="0" y="7" font-size="11" font-weight="700" fill="#e8edf5" text-anchor="middle" dominant-baseline="middle">Distributeur</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">Machine physique</text></g>
+      <g transform="translate(400,62)"><rect x="-68" y="-26" width="136" height="52" rx="9" fill="#120a00" stroke="#ff6b35" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">🏥</text><text x="0" y="7" font-size="11" font-weight="700" fill="#e8edf5" text-anchor="middle" dominant-baseline="middle">Cabinet Menton</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">Emplacement #1</text></g>
+      <g transform="translate(700,62)"><rect x="-72" y="-26" width="144" height="52" rx="9" fill="#120a00" stroke="#ff6b35" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">🇮🇹</text><text x="0" y="7" font-size="11" font-weight="700" fill="#e8edf5" text-anchor="middle" dominant-baseline="middle">Fournisseurs</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">Vintimille · GPA · MFS</text></g>
+      <!-- NODES C2 -->
+      <g transform="translate(160,162)"><rect x="-62" y="-26" width="124" height="52" rx="9" fill="#130e00" stroke="#ffb800" stroke-width="1.5" stroke-dasharray="5,3"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">💳</text><text x="0" y="7" font-size="11" font-weight="700" fill="#ffb800" text-anchor="middle" dominant-baseline="middle">Nayax</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">Paiement ⚠️ À créer</text></g>
+      <g transform="translate(480,162)"><rect x="-68" y="-26" width="136" height="52" rx="9" fill="#001200" stroke="#00ff9d" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">⚡</text><text x="0" y="7" font-size="11" font-weight="700" fill="#00ff9d" text-anchor="middle" dominant-baseline="middle">Apps Script</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">API Sheets → PWA</text></g>
+      <g transform="translate(800,162)"><rect x="-62" y="-26" width="124" height="52" rx="9" fill="#000d1a" stroke="#00d4ff" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">📋</text><text x="0" y="7" font-size="11" font-weight="700" fill="#e8edf5" text-anchor="middle" dominant-baseline="middle">Trello</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">Suivi tâches</text></g>
+      <!-- NODES C3 -->
+      <g transform="translate(480,262)" filter="url(#glow2)"><rect x="-80" y="-28" width="160" height="56" rx="10" fill="#001525" stroke="#00d4ff" stroke-width="2.5"/><text x="0" y="-9" font-size="14" text-anchor="middle" dominant-baseline="middle">⚙️</text><text x="0" y="8" font-size="14" font-weight="700" fill="#00d4ff" text-anchor="middle" dominant-baseline="middle">Make.com</text><text x="0" y="22" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">2 scénarios · 1000 ops/mois</text></g>
+      <!-- NODES C4 -->
+      <g transform="translate(200,362)"><rect x="-72" y="-26" width="144" height="52" rx="9" fill="#001200" stroke="#00ff9d" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">📊</text><text x="0" y="7" font-size="11" font-weight="700" fill="#00ff9d" text-anchor="middle" dominant-baseline="middle">Google Sheets</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">Ventes · Stocks · Finances</text></g>
+      <g transform="translate(480,362)"><rect x="-66" y="-26" width="132" height="52" rx="9" fill="#001200" stroke="#00ff9d" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">☁️</text><text x="0" y="7" font-size="11" font-weight="700" fill="#00ff9d" text-anchor="middle" dominant-baseline="middle">Google Drive</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">6 dossiers · 3 membres</text></g>
+      <g transform="translate(760,362)"><rect x="-70" y="-26" width="140" height="52" rx="9" fill="#001200" stroke="#00ff9d" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">📈</text><text x="0" y="7" font-size="11" font-weight="700" fill="#00ff9d" text-anchor="middle" dominant-baseline="middle">Looker Studio</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">Dashboard V1</text></g>
+      <!-- NODES C5 -->
+      <g transform="translate(200,462)"><rect x="-66" y="-26" width="132" height="52" rx="9" fill="#150022" stroke="#9b59b6" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">💬</text><text x="0" y="7" font-size="11" font-weight="700" fill="#c39bd3" text-anchor="middle" dominant-baseline="middle">Slack</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">#alertes · #ventes</text></g>
+      <g transform="translate(480,462)"><rect x="-66" y="-26" width="132" height="52" rx="9" fill="#150022" stroke="#9b59b6" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">📧</text><text x="0" y="7" font-size="11" font-weight="700" fill="#c39bd3" text-anchor="middle" dominant-baseline="middle">Brevo</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">300 mails/j · ⚠️ DKIM</text></g>
+      <g transform="translate(760,462)"><rect x="-66" y="-26" width="132" height="52" rx="9" fill="#150022" stroke="#9b59b6" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">✉️</text><text x="0" y="7" font-size="11" font-weight="700" fill="#c39bd3" text-anchor="middle" dominant-baseline="middle">Gmail Pro</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">distrib.auto.ia@</text></g>
+      <!-- NODES C6 -->
+      <g transform="translate(180,562)" filter="url(#glow2)"><rect x="-70" y="-28" width="140" height="56" rx="10" fill="#1a0010" stroke="#ff3b5c" stroke-width="2"/><text x="0" y="-9" font-size="14" text-anchor="middle" dominant-baseline="middle">🤖</text><text x="0" y="8" font-size="13" font-weight="700" fill="#ff6b8a" text-anchor="middle" dominant-baseline="middle">Claude IA</text><text x="0" y="22" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">Cerveau du projet</text></g>
+      <g transform="translate(480,562)" filter="url(#glow2)"><rect x="-80" y="-28" width="160" height="56" rx="10" fill="#001525" stroke="#00d4ff" stroke-width="2"/><text x="0" y="-9" font-size="14" text-anchor="middle" dominant-baseline="middle">📱</text><text x="0" y="8" font-size="13" font-weight="700" fill="#00d4ff" text-anchor="middle" dominant-baseline="middle">PWA v4</text><text x="0" y="22" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">distrib-auto-ia.netlify.app</text></g>
+      <g transform="translate(800,562)" opacity=".6"><rect x="-66" y="-26" width="132" height="52" rx="9" fill="#1a0010" stroke="#ff3b5c" stroke-width="1" stroke-dasharray="5,3"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">🎨</text><text x="0" y="7" font-size="11" font-weight="700" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">Canva</text><text x="0" y="20" font-size="9" fill="#5a6a8a" text-anchor="middle" dominant-baseline="middle">Visuels · À créer</text></g>
+      <!-- NODES C7 -->
+      <g transform="translate(300,662)"><rect x="-70" y="-26" width="140" height="52" rx="9" fill="#0a0a10" stroke="#8a9ab8" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">🐙</text><text x="0" y="7" font-size="11" font-weight="700" fill="#e8edf5" text-anchor="middle" dominant-baseline="middle">GitHub</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">Repo + Actions CI/CD</text></g>
+      <g transform="translate(660,662)"><rect x="-66" y="-26" width="132" height="52" rx="9" fill="#0a0a10" stroke="#8a9ab8" stroke-width="1.5"/><text x="0" y="-8" font-size="14" text-anchor="middle" dominant-baseline="middle">🚀</text><text x="0" y="7" font-size="11" font-weight="700" fill="#e8edf5" text-anchor="middle" dominant-baseline="middle">Netlify</text><text x="0" y="20" font-size="9" fill="#8a9ab8" text-anchor="middle" dominant-baseline="middle">Hébergement PWA</text></g>
+      <!-- ARROWS -->
+      <line x1="160" y1="88" x2="160" y2="136" stroke="#ffb800" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ao)" opacity=".6"/>
+      <text x="166" y="116" font-size="8" font-family="monospace" fill="#ffb800">ventes</text>
+      <path d="M222,162 Q350,200 400,262" fill="none" stroke="#ffb800" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ao)" opacity=".5"/>
+      <text x="290" y="215" font-size="8" font-family="monospace" fill="#ffb800">webhook</text>
+      <path d="M420,275 Q310,275 272,336" fill="none" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#a)" opacity=".6"/>
+      <text x="315" y="300" font-size="8" font-family="monospace" fill="#00d4ff">add row</text>
+      <path d="M415,278 Q290,350 255,436" fill="none" stroke="#9b59b6" stroke-width="1.5" marker-end="url(#ap)" opacity=".6"/>
+      <text x="295" y="368" font-size="8" font-family="monospace" fill="#9b59b6">alertes</text>
+      <line x1="480" y1="290" x2="480" y2="436" stroke="#9b59b6" stroke-width="1.5" marker-end="url(#ap)" opacity=".6"/>
+      <text x="486" y="370" font-size="8" font-family="monospace" fill="#9b59b6">email</text>
+      <line x1="272" y1="362" x2="690" y2="362" stroke="#00ff9d" stroke-width="1.5" marker-end="url(#ag)" opacity=".5"/>
+      <text x="430" y="355" font-size="8" font-family="monospace" fill="#00ff9d">source data</text>
+      <path d="M200,336 Q200,240 412,162" fill="none" stroke="#00ff9d" stroke-width="1.5" marker-end="url(#ag)" opacity=".5"/>
+      <text x="170" y="255" font-size="8" font-family="monospace" fill="#00ff9d">API</text>
+      <line x1="480" y1="188" x2="480" y2="534" stroke="#00ff9d" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ag)" opacity=".6"/>
+      <text x="486" y="390" font-size="8" font-family="monospace" fill="#00ff9d">live data</text>
+      <path d="M250,562 Q370,490 414,388" fill="none" stroke="#ff3b5c" stroke-width="1.5" marker-end="url(#ar)" opacity=".5"/>
+      <text x="275" y="478" font-size="8" font-family="monospace" fill="#ff3b5c">crée docs</text>
+      <line x1="250" y1="562" x2="400" y2="562" stroke="#ff3b5c" stroke-width="1.5" marker-end="url(#ar)" opacity=".5"/>
+      <text x="295" y="555" font-size="8" font-family="monospace" fill="#ff3b5c">génère code</text>
+      <path d="M430,583 Q380,640 370,636" fill="none" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#a)" opacity=".5"/>
+      <text x="362" y="620" font-size="8" font-family="monospace" fill="#00d4ff">push</text>
+      <line x1="370" y1="662" x2="594" y2="662" stroke="#8a9ab8" stroke-width="2" marker-end="url(#as2)" opacity=".7"/>
+      <text x="430" y="655" font-size="8" font-family="monospace" fill="#8a9ab8">GitHub Actions → auto deploy</text>
+      <path d="M660,636 Q600,610 560,590" fill="none" stroke="#8a9ab8" stroke-width="1.5" marker-end="url(#as2)" opacity=".5"/>
+      <text x="584" y="618" font-size="8" font-family="monospace" fill="#8a9ab8">héberge</text>
+    </svg>
+  </div>
+
+  <!-- LEGENDE -->
+  <div style="margin:0 20px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+    <div style="display:flex;align-items:center;gap:5px;font-size:9px;font-family:monospace;color:#5a6a8a;"><div style="width:16px;height:2px;background:#00d4ff;"></div>Flux Make</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:9px;font-family:monospace;color:#5a6a8a;"><div style="width:16px;height:2px;background:#00ff9d;"></div>Données live</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:9px;font-family:monospace;color:#5a6a8a;"><div style="width:16px;height:2px;background:#ffb800;border-top:2px dashed #ffb800;"></div>À connecter</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:9px;font-family:monospace;color:#5a6a8a;"><div style="width:16px;height:2px;background:#9b59b6;"></div>Communication</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:9px;font-family:monospace;color:#5a6a8a;"><div style="width:16px;height:2px;background:#ff3b5c;"></div>Claude IA</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:9px;font-family:monospace;color:#5a6a8a;"><div style="width:16px;height:2px;background:#8a9ab8;"></div>Dev/Deploy</div>
+  </div>
+  <div class="spacer"></div>
+</div>
+
 </div>
 
 <div class="bottom-nav">
   <div class="nav-item active" onclick="showPage('home',this)"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></div>
   <div class="nav-item" onclick="showPage('finance',this)"><div class="nav-icon">💰</div><div class="nav-label">Finance</div></div>
   <div class="nav-item" onclick="showPage('auto',this)"><div class="nav-icon">⚡</div><div class="nav-label">Make</div></div>
-  <div class="nav-item" onclick="showPage('equipe',this)"><div class="nav-icon">👥</div><div class="nav-label">Équipe</div></div>
+  <div class="nav-item" onclick="showPage('stack',this)"><div class="nav-icon">🗺️</div><div class="nav-label">Stack</div></div>
   <div class="nav-item" onclick="showPage('todo',this)"><div class="nav-icon">✅</div><div class="nav-label">To-Do</div></div>
 </div>
 
