@@ -305,14 +305,25 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);display:flex
     <div class="hero-sub">Scénarios en production</div>
   </div>
   <div class="auto-card">
-    <div class="auto-header"><div class="auto-num">#1</div><div class="auto-title">Vente Nayax → Sheets + Slack + Brevo</div></div>
-    <div class="auto-trigger">⚡ Webhook custom (chaque vente)</div>
-    <div class="auto-flow">
-      <span class="flow-step">Webhook</span><span class="flow-arrow">→</span>
-      <span class="flow-step">Sheets AddRow</span><span class="flow-arrow">→</span>
-      <span class="flow-step">Filter Stock &lt;3</span><span class="flow-arrow">→</span>
-      <span class="flow-step">Slack #alertes</span><span class="flow-arrow">+</span>
-      <span class="flow-step">Brevo email</span>
+    <div class="auto-header"><div class="auto-num">#1</div><div class="auto-title">Vente → Sheets + Alertes + Prédiction</div></div>
+    <div class="auto-trigger">⚡ Webhook custom (chaque vente Nayax)</div>
+    <div style="display:flex;flex-direction:column;gap:10px;padding-left:10px;border-left:2px solid rgba(0,212,255,0.2);">
+      <div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:4px;font-family:var(--mono);">TOUJOURS</div>
+        <div class="auto-flow"><span class="flow-step">Webhook</span><span class="flow-arrow">→</span><span class="flow-step">Sheets AddRow</span><span class="flow-arrow">→</span><span class="flow-step">Router</span></div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--danger);margin-bottom:4px;font-family:var(--mono);">ROUTE 1 — Stock &lt; 3</div>
+        <div class="auto-flow"><span class="flow-step">Slack #alertes</span><span class="flow-arrow">+</span><span class="flow-step">Brevo email</span></div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--danger);margin-bottom:4px;font-family:var(--mono);">ROUTE 2 — Rupture = 0</div>
+        <div class="auto-flow"><span class="flow-step">Slack 🔴 RUPTURE @channel</span></div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--warn);margin-bottom:4px;font-family:var(--mono);">ROUTE 3 — Prédiction rupture 48h</div>
+        <div class="auto-flow"><span class="flow-step">Slack 📊 Prévoir réassort</span></div>
+      </div>
     </div>
     <div class="auto-webhook" onclick="copyWebhook()">
       <span style="color:var(--accent2)">WEBHOOK URL :</span><br>
@@ -320,17 +331,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);display:flex
       <br><span style="color:var(--accent);font-size:9px;margin-top:4px;display:block;">↑ Cliquer pour copier</span>
     </div>
   </div>
+
   <div class="auto-card">
-    <div class="auto-header"><div class="auto-num">#2</div><div class="auto-title">Récap fusionné quotidien + hebdo</div></div>
+    <div class="auto-header"><div class="auto-num">#2</div><div class="auto-title">Récap + Mensuel + Détection Panne</div></div>
     <div class="auto-trigger">⚡ Schedule — chaque jour à 20h00</div>
-    <div style="padding-left:10px;border-left:2px solid rgba(0,212,255,0.2);display:flex;flex-direction:column;gap:10px;">
+    <div style="display:flex;flex-direction:column;gap:10px;padding-left:10px;border-left:2px solid rgba(0,212,255,0.2);">
       <div>
         <div style="font-size:10px;color:var(--muted);margin-bottom:4px;font-family:var(--mono);">ROUTE 1 — TOUJOURS</div>
-        <div class="auto-flow"><span class="flow-step">Slack #ventes</span></div>
+        <div class="auto-flow"><span class="flow-step">Slack #ventes</span><span style="font-size:10px;color:var(--muted);margin-left:4px;">récap journalier</span></div>
       </div>
       <div>
-        <div style="font-size:10px;color:var(--muted);margin-bottom:4px;font-family:var(--mono);">ROUTE 2 — DIMANCHE</div>
-        <div class="auto-flow"><span class="flow-step">Sheets week</span><span class="flow-arrow">+</span><span class="flow-step">month</span><span class="flow-arrow">→</span><span class="flow-step">Slack #general</span></div>
+        <div style="font-size:10px;color:var(--accent);margin-bottom:4px;font-family:var(--mono);">ROUTE 2 — DIMANCHE</div>
+        <div class="auto-flow"><span class="flow-step">Sheets week</span><span class="flow-arrow">→</span><span class="flow-step">Slack #general</span></div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--accent2);margin-bottom:4px;font-family:var(--mono);">ROUTE 3 — 1er DU MOIS 🆕</div>
+        <div class="auto-flow"><span class="flow-step">Sheets mois</span><span class="flow-arrow">→</span><span class="flow-step">Slack #general</span><span class="flow-arrow">+</span><span class="flow-step">Brevo → Aurore+Tim</span></div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--warn);margin-bottom:4px;font-family:var(--mono);">ROUTE 4 — PANNE MACHINE 🆕</div>
+        <div class="auto-flow"><span class="flow-step">0 vente détectée</span><span class="flow-arrow">→</span><span class="flow-step">Slack 🔧 @channel</span></div>
       </div>
     </div>
   </div>
