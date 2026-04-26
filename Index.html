@@ -3,272 +3,202 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#0a0f1e">
+<meta name="theme-color" content="#070c1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Distrib Auto IA">
 <title>Distrib Auto IA</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #070c1a;
-    --bg2: #0d1526;
-    --bg3: #111c33;
-    --card: #131e35;
-    --border: rgba(255,255,255,0.07);
-    --accent: #00d4ff;
-    --accent2: #00ff9d;
-    --accent3: #ff6b35;
-    --warn: #ffb800;
-    --danger: #ff3b5c;
-    --text: #e8edf5;
-    --muted: #5a6a8a;
-    --mono: 'Space Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
-  }
-
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-
-  html { height: 100%; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  /* SCROLL AREA */
-  .app-scroll {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* TOP HEADER */
-  .header {
-    background: rgba(7,12,26,0.98);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 20px 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-  }
-  .header-logo {
-    font-family: var(--mono);
-    font-size: 13px;
-    letter-spacing: 2px;
-    color: var(--accent);
-    text-transform: uppercase;
-  }
-  .header-logo span { color: var(--accent2); }
-  .header-badge {
-    font-family: var(--mono);
-    font-size: 10px;
-    background: rgba(0,212,255,0.1);
-    border: 1px solid rgba(0,212,255,0.3);
-    color: var(--accent);
-    padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: 1px;
-  }
-
-  /* PAGES */
-  .page { display: none; animation: fadeIn .25s ease; }
-  .page.active { display: block; }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
-
-  /* HERO */
-  .hero { padding: 24px 20px 0; }
-  .hero-greeting { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-  .hero-title { font-size: 26px; font-weight: 600; line-height: 1.2; margin-bottom: 4px; }
-  .hero-title em { color: var(--accent); font-style: normal; }
-  .hero-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
-
-  /* KPI */
-  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 20px; margin-bottom: 10px; }
-  .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; position: relative; overflow: hidden; }
-  .kpi-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background: var(--kpi-color, var(--accent)); }
-  .kpi-label { font-size: 10px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; font-family: var(--mono); }
-  .kpi-value { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--kpi-color, var(--text)); }
-  .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
-  .kpi-full { grid-column: 1/-1; }
-
-  /* PROGRESS */
-  .progress-wrap { margin: 0 20px 10px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
-  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  .progress-label { font-size: 11px; color: var(--muted); font-family: var(--mono); letter-spacing: 1px; text-transform: uppercase; }
-  .progress-pct { font-family: var(--mono); font-size: 14px; color: var(--accent2); font-weight: 700; }
-  .progress-track { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent2), var(--accent)); transition: width 1s cubic-bezier(0.4,0,0.2,1); }
-  .progress-amounts { display:flex; justify-content:space-between; margin-top:8px; font-size:11px; color:var(--muted); }
-
-  /* SECTION TITLE */
-  .section-title { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; padding: 16px 20px 10px; }
-
-  /* STATUS */
-  .status-list { padding: 0 20px; display: flex; flex-direction: column; gap: 8px; }
-  .status-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; }
-  .status-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 var(--dot-color)} 50%{box-shadow:0 0 0 4px transparent} }
-  .dot-green { --dot-color: var(--accent2); background:var(--accent2); }
-  .dot-orange { --dot-color: var(--warn); background:var(--warn); }
-  .dot-red { --dot-color: var(--danger); background:var(--danger); animation:none; }
-  .dot-grey { --dot-color: var(--muted); background:var(--muted); animation:none; }
-  .status-info { flex:1; }
-  .status-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
-  .status-desc { font-size: 11px; color: var(--muted); }
-  .status-chip { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; padding: 3px 8px; border-radius: 10px; border: 1px solid; white-space: nowrap; }
-  .chip-green { color:var(--accent2); border-color:rgba(0,255,157,.25); background:rgba(0,255,157,.06); }
-  .chip-orange { color:var(--warn); border-color:rgba(255,184,0,.25); background:rgba(255,184,0,.06); }
-  .chip-red { color:var(--danger); border-color:rgba(255,59,92,.25); background:rgba(255,59,92,.06); }
-  .chip-grey { color:var(--muted); border-color:rgba(90,106,138,.25); background:rgba(90,106,138,.06); }
-
-  /* LINKS */
-  .links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 20px; }
-  .link-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; cursor: pointer; text-decoration: none; color: inherit; }
-  .link-icon { font-size: 22px; }
-  .link-name { font-size: 13px; font-weight: 500; }
-  .link-url { font-size: 10px; color: var(--muted); font-family: var(--mono); }
-
-  /* AUTO */
-  .auto-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin: 0 20px 10px; }
-  .auto-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-  .auto-num { font-family: var(--mono); font-size: 10px; color: var(--accent); background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); width:28px;height:28px; border-radius:8px; display:flex;align-items:center;justify-content:center; flex-shrink:0; }
-  .auto-title { font-size:14px;font-weight:600; }
-  .auto-trigger { font-size:11px;color:var(--muted);margin-bottom:10px; }
-  .auto-flow { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
-  .flow-step { font-family: var(--mono); font-size: 9px; padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
-  .flow-arrow { color: var(--muted); font-size: 10px; }
-  .auto-webhook { margin-top:12px; background:rgba(0,0,0,0.3); border-radius:8px; padding:8px 10px; font-family:var(--mono); font-size:9px; color:var(--muted); word-break:break-all; border:1px solid var(--border); cursor:pointer; }
-  .auto-webhook span { color:var(--accent2); }
-
-  /* EQUIPE */
-  .team-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin: 0 20px 10px; display: flex; align-items: flex-start; gap: 14px; }
-  .team-avatar { width:46px;height:46px; border-radius:12px; display:flex;align-items:center;justify-content:center; font-size:18px; flex-shrink:0; border:1px solid var(--border); }
-  .team-name { font-size:15px;font-weight:600;margin-bottom:3px; }
-  .team-role { font-family:var(--mono); font-size:9px; letter-spacing:1.5px; color:var(--accent); text-transform:uppercase; margin-bottom:8px; }
-  .team-tags { display:flex;flex-wrap:wrap;gap:5px; }
-  .team-tag { font-size:10px; padding:2px 8px; border-radius:8px; background:rgba(255,255,255,0.05); color:var(--muted); border:1px solid var(--border); }
-
-  /* TODO */
-  .todo-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin: 0 20px 8px; overflow: hidden; }
-  .todo-item { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-bottom: 1px solid var(--border); cursor: pointer; }
-  .todo-item:last-child { border-bottom: none; }
-  .todo-check { width:20px;height:20px; border-radius:6px; border:2px solid var(--border); display:flex;align-items:center;justify-content:center; flex-shrink:0; font-size:11px; transition: all .2s; }
-  .todo-item.done .todo-check { background: var(--accent2); border-color: var(--accent2); color: #000; }
-  .todo-text { font-size:13px; flex:1; }
-  .todo-item.done .todo-text { color: var(--muted); text-decoration: line-through; }
-  .todo-prio { font-size:10px; padding:2px 6px; border-radius:6px; font-family:var(--mono); }
-  .prio-high { background:rgba(255,59,92,.12);color:var(--danger); }
-  .prio-med { background:rgba(255,184,0,.1);color:var(--warn); }
-  .prio-low { background:rgba(90,106,138,.1);color:var(--muted); }
-
-  /* BOTTOM NAV — toujours visible */
-  .bottom-nav {
-    flex-shrink: 0;
-    background: #0a1020;
-    border-top: 1px solid rgba(0,212,255,0.2);
-    display: flex;
-    padding: 10px 8px 14px;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.6);
-  }
-  .nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 8px 4px;
-    cursor: pointer;
-    opacity: 0.35;
-    font-family: var(--mono);
-    border-radius: 10px;
-    transition: all .2s;
-  }
-  .nav-item.active { opacity: 1; background: rgba(0,212,255,0.1); }
-  .nav-icon { font-size: 22px; }
-  .nav-label { font-size: 9px; letter-spacing: 0.5px; color: var(--muted); text-transform: uppercase; }
-  .nav-item.active .nav-label { color: var(--accent); }
-
-  /* MISC */
-  .alert-banner { margin: 0 20px 10px; background: rgba(255,184,0,0.07); border: 1px solid rgba(255,184,0,0.2); border-radius: 12px; padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; }
-  .alert-icon { font-size:16px;flex-shrink:0; }
-  .alert-text { font-size:12px;color:var(--warn);line-height:1.5; }
-  .alert-text strong { display:block;margin-bottom:2px;font-size:11px;letter-spacing:1px;font-family:var(--mono); }
-  .looker-btn { display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(0,255,157,0.06)); border: 1px solid rgba(0,212,255,0.25); border-radius: 12px; padding: 14px 16px; margin: 0 20px 10px; cursor: pointer; text-decoration: none; color: inherit; }
-  .looker-btn-icon { font-size:24px; }
-  .looker-btn-text { flex:1; }
-  .looker-btn-title { font-size:14px;font-weight:600;color:var(--accent); }
-  .looker-btn-sub { font-size:11px;color:var(--muted); }
-  .looker-btn-arrow { color:var(--muted);font-size:16px; }
-  .toast { position:fixed; bottom:90px;left:50%;transform:translateX(-50%) translateY(10px); background:#1a2b4a; border:1px solid var(--accent); color:var(--accent); font-family:var(--mono); font-size:11px; padding:8px 16px; border-radius:20px; opacity:0; transition:all .3s; pointer-events:none; z-index:999; white-space:nowrap; }
-  .toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
-  .spacer { height: 20px; }
-  .row-item { padding:12px 16px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;font-size:13px; }
-  .row-item:last-child { border-bottom:none; }
+:root {
+  --bg:#070c1a;--card:#131e35;--border:rgba(255,255,255,0.07);
+  --accent:#00d4ff;--accent2:#00ff9d;--accent3:#ff6b35;
+  --warn:#ffb800;--danger:#ff3b5c;--text:#e8edf5;--muted:#5a6a8a;
+  --mono:'Space Mono',monospace;--sans:'DM Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);display:flex;flex-direction:column;height:100dvh;}
+.app-scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+.header{background:rgba(7,12,26,0.98);border-bottom:1px solid var(--border);padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.header-logo{font-family:var(--mono);font-size:13px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;}
+.header-logo span{color:var(--accent2);}
+.header-badge{font-family:var(--mono);font-size:10px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);color:var(--accent);padding:4px 10px;border-radius:20px;}
+.page{display:none;animation:fadeIn .25s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.hero{padding:24px 20px 0;}
+.hero-greeting{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.hero-title{font-size:26px;font-weight:600;line-height:1.2;margin-bottom:4px;}
+.hero-title em{color:var(--accent);font-style:normal;}
+.hero-sub{font-size:13px;color:var(--muted);margin-bottom:24px;}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px;margin-bottom:10px;}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;position:relative;overflow:hidden;cursor:pointer;}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--kpi-color,var(--accent));}
+.kpi-label{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-family:var(--mono);}
+.kpi-value{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--kpi-color,var(--text));}
+.kpi-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+.kpi-full{grid-column:1/-1;}
+.progress-wrap{margin:0 20px 10px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;}
+.progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.progress-label{font-size:11px;color:var(--muted);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;}
+.progress-pct{font-family:var(--mono);font-size:14px;color:var(--accent2);font-weight:700;}
+.progress-track{height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width 1s cubic-bezier(0.4,0,0.2,1);}
+.progress-amounts{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted);}
+.live-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;color:var(--accent2);background:rgba(0,255,157,0.08);border:1px solid rgba(0,255,157,0.2);padding:3px 8px;border-radius:10px;margin:0 20px 10px;width:fit-content;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.section-title{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;padding:16px 20px 10px;}
+.drive-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px;margin-bottom:10px;}
+.drive-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;text-decoration:none;color:inherit;transition:border-color .2s,background .2s;position:relative;overflow:hidden;}
+.drive-card:hover{border-color:var(--accent);background:rgba(0,212,255,0.03);}
+.drive-card::after{content:'↗';position:absolute;top:10px;right:12px;font-size:12px;color:var(--muted);}
+.drive-icon{font-size:22px;}
+.drive-name{font-size:13px;font-weight:600;}
+.drive-sub{font-size:10px;color:var(--muted);font-family:var(--mono);}
+.status-list{padding:0 20px;display:flex;flex-direction:column;gap:8px;}
+.status-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;text-decoration:none;color:inherit;}
+.status-card:hover{border-color:rgba(255,255,255,0.15);}
+.status-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--dot-color)}50%{box-shadow:0 0 0 4px transparent}}
+.dot-green{--dot-color:var(--accent2);background:var(--accent2);}
+.dot-orange{--dot-color:var(--warn);background:var(--warn);}
+.dot-red{--dot-color:var(--danger);background:var(--danger);animation:none;}
+.dot-grey{--dot-color:var(--muted);background:var(--muted);animation:none;}
+.status-info{flex:1;}
+.status-name{font-size:14px;font-weight:500;margin-bottom:2px;}
+.status-desc{font-size:11px;color:var(--muted);}
+.status-chip{font-family:var(--mono);font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:10px;border:1px solid;white-space:nowrap;}
+.chip-green{color:var(--accent2);border-color:rgba(0,255,157,.25);background:rgba(0,255,157,.06);}
+.chip-orange{color:var(--warn);border-color:rgba(255,184,0,.25);background:rgba(255,184,0,.06);}
+.chip-red{color:var(--danger);border-color:rgba(255,59,92,.25);background:rgba(255,59,92,.06);}
+.chip-grey{color:var(--muted);border-color:rgba(90,106,138,.25);background:rgba(90,106,138,.06);}
+.auto-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin:0 20px 10px;}
+.auto-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.auto-num{font-family:var(--mono);font-size:10px;color:var(--accent);background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.auto-title{font-size:14px;font-weight:600;}
+.auto-trigger{font-size:11px;color:var(--muted);margin-bottom:10px;}
+.auto-flow{display:flex;flex-wrap:wrap;gap:4px;align-items:center;}
+.flow-step{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid var(--border);}
+.flow-arrow{color:var(--muted);font-size:10px;}
+.auto-webhook{margin-top:12px;background:rgba(0,0,0,0.3);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:9px;color:var(--muted);word-break:break-all;border:1px solid var(--border);cursor:pointer;}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin:0 20px 10px;display:flex;align-items:flex-start;gap:14px;}
+.team-avatar{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border:1px solid var(--border);}
+.team-name{font-size:15px;font-weight:600;margin-bottom:3px;}
+.team-role{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
+.team-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.team-tag{font-size:10px;padding:2px 8px;border-radius:8px;background:rgba(255,255,255,0.05);color:var(--muted);border:1px solid var(--border);}
+.todo-card{background:var(--card);border:1px solid var(--border);border-radius:12px;margin:0 20px 8px;overflow:hidden;}
+.todo-item{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border);cursor:pointer;}
+.todo-item:last-child{border-bottom:none;}
+.todo-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;transition:all .2s;}
+.todo-item.done .todo-check{background:var(--accent2);border-color:var(--accent2);color:#000;}
+.todo-text{font-size:13px;flex:1;}
+.todo-item.done .todo-text{color:var(--muted);text-decoration:line-through;}
+.todo-prio{font-size:10px;padding:2px 6px;border-radius:6px;font-family:var(--mono);}
+.prio-high{background:rgba(255,59,92,.12);color:var(--danger);}
+.prio-med{background:rgba(255,184,0,.1);color:var(--warn);}
+.prio-low{background:rgba(90,106,138,.1);color:var(--muted);}
+.finance-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin:0 20px 10px;}
+.finance-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.finance-row:last-child{border-bottom:none;}
+.finance-label{color:var(--muted);}
+.finance-val{font-family:var(--mono);font-weight:700;}
+.finance-val.green{color:var(--accent2);}
+.finance-val.red{color:var(--danger);}
+.finance-val.blue{color:var(--accent);}
+.ventes-table{margin:0 20px 10px;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.ventes-header{display:grid;grid-template-columns:1fr 1fr 80px;background:rgba(0,212,255,0.08);border-bottom:1px solid var(--border);padding:10px 14px;}
+.ventes-header span{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;}
+.ventes-row{display:grid;grid-template-columns:1fr 1fr 80px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;}
+.ventes-row:last-child{border-bottom:none;}
+.ventes-row:nth-child(even){background:rgba(255,255,255,0.02);}
+.alert-banner{margin:0 20px 10px;background:rgba(255,184,0,0.07);border:1px solid rgba(255,184,0,0.2);border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;}
+.alert-icon{font-size:16px;flex-shrink:0;}
+.alert-text{font-size:12px;color:var(--warn);line-height:1.5;}
+.alert-text strong{display:block;margin-bottom:2px;font-size:11px;letter-spacing:1px;font-family:var(--mono);}
+.looker-btn{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(0,255,157,0.06));border:1px solid rgba(0,212,255,0.25);border-radius:12px;padding:14px 16px;margin:0 20px 10px;cursor:pointer;text-decoration:none;color:inherit;}
+.looker-btn:hover{border-color:var(--accent);}
+.looker-btn-icon{font-size:24px;}
+.looker-btn-text{flex:1;}
+.looker-btn-title{font-size:14px;font-weight:600;color:var(--accent);}
+.looker-btn-sub{font-size:11px;color:var(--muted);}
+.looker-btn-arrow{color:var(--muted);font-size:16px;}
+.bottom-nav{flex-shrink:0;background:#0a1020;border-top:1px solid rgba(0,212,255,0.2);display:flex;padding:10px 6px 14px;box-shadow:0 -4px 20px rgba(0,0,0,0.6);}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 2px;cursor:pointer;opacity:0.35;font-family:var(--mono);border-radius:10px;transition:all .2s;margin:0 2px;}
+.nav-item.active{opacity:1;background:rgba(0,212,255,0.1);}
+.nav-icon{font-size:20px;}
+.nav-label{font-size:8px;letter-spacing:0.5px;color:var(--muted);text-transform:uppercase;}
+.nav-item.active .nav-label{color:var(--accent);}
+.row-item{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;font-size:13px;}
+.row-item:last-child{border-bottom:none;}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:#1a2b4a;border:1px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:11px;padding:8px 16px;border-radius:20px;opacity:0;transition:all .3s;pointer-events:none;z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.loading{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;color:var(--muted);padding:0 20px;margin-bottom:10px;}
+.loading-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1s infinite;}
+.loading-dot:nth-child(2){animation-delay:.2s;}
+.loading-dot:nth-child(3){animation-delay:.4s;}
+.spacer{height:20px;}
+.refresh-btn{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--accent);background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);padding:5px 12px;border-radius:10px;cursor:pointer;margin:0 20px 10px;width:fit-content;}
+.refresh-btn:hover{background:rgba(0,212,255,0.15);}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-logo">DISTRIB <span>AUTO</span> IA</div>
-  <div class="header-badge" id="live-date">— —</div>
+  <div class="header-badge" id="live-date">—</div>
 </div>
 
-<!-- SCROLL AREA -->
 <div class="app-scroll">
 
-<!-- PAGE HOME -->
+<!-- ===== HOME ===== -->
 <div class="page active" id="page-home">
   <div class="hero">
     <div class="hero-greeting">Tableau de bord</div>
     <div class="hero-title">Bonjour, <em>Tim</em> 👋</div>
     <div class="hero-sub">Distributeurs automatiques · IA · Menton</div>
   </div>
+
+  <div class="live-badge"><div class="live-dot"></div> DONNÉES EN TEMPS RÉEL</div>
+
   <div class="progress-wrap">
     <div class="progress-header">
       <div class="progress-label">Objectif CA mensuel V1</div>
-      <div class="progress-pct" id="ca-pct">0%</div>
+      <div class="progress-pct" id="ca-pct">…</div>
     </div>
-    <div class="progress-track">
-      <div class="progress-fill" id="ca-bar" style="width:0%"></div>
-    </div>
-    <div class="progress-amounts">
-      <span id="ca-current">0 €</span>
-      <span>/ 800 €</span>
-    </div>
+    <div class="progress-track"><div class="progress-fill" id="ca-bar" style="width:0%"></div></div>
+    <div class="progress-amounts"><span id="ca-current">Chargement…</span><span>/ 800 €</span></div>
   </div>
+
   <div class="kpi-grid">
-    <div class="kpi-card" style="--kpi-color:var(--accent2)">
-      <div class="kpi-label">Ventes aujourd'hui</div>
-      <div class="kpi-value" id="kpi-today">—</div>
-      <div class="kpi-sub">via Make → Sheets</div>
+    <div class="kpi-card" style="--kpi-color:var(--accent2)" onclick="showPage('finance',document.querySelectorAll('.nav-item')[1])">
+      <div class="kpi-label">CA aujourd'hui</div>
+      <div class="kpi-value" id="kpi-today">…</div>
+      <div class="kpi-sub">→ Finance</div>
     </div>
-    <div class="kpi-card" style="--kpi-color:var(--accent)">
+    <div class="kpi-card" style="--kpi-color:var(--warn)">
       <div class="kpi-label">Stock bas</div>
-      <div class="kpi-value">⚠️ 1</div>
+      <div class="kpi-value">⚠️ 3</div>
       <div class="kpi-sub">seuil alerte = 3</div>
     </div>
-    <div class="kpi-card kpi-full" style="--kpi-color:var(--accent3)">
+    <div class="kpi-card kpi-full" style="--kpi-color:var(--accent3)" onclick="window.open('https://make.com','_blank')">
       <div class="kpi-label">Automatisations Make</div>
       <div class="kpi-value">2 <span style="font-size:12px;color:var(--muted)">/2 actifs</span></div>
       <div class="kpi-sub">Scénario #1 (ventes) + #2 (récap 20h)</div>
     </div>
   </div>
+
+  <div class="refresh-btn" onclick="loadData()">🔄 Actualiser les données</div>
+
   <div class="alert-banner">
     <div class="alert-icon">⚠️</div>
     <div class="alert-text">
       <strong>ACTION REQUISE</strong>
-      Compte Nayax non créé — webhook encore en mode test. Passer au vrai webhook dès que Nayax est actif.
+      Nayax non créé — webhook en mode test. Créer compte Nayax pour activer les ventes réelles.
     </div>
   </div>
+
   <a class="looker-btn" href="https://datastudio.google.com/reporting/5a14a1db-7fb7-4c1d-b7bc-5807c74a1529" target="_blank">
     <div class="looker-btn-icon">📊</div>
     <div class="looker-btn-text">
@@ -277,76 +207,97 @@
     </div>
     <div class="looker-btn-arrow">↗</div>
   </a>
+
+  <div class="section-title">📁 Drive — Accès rapide</div>
+  <div class="drive-grid">
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1jBCT5jenKDc1cKcyE_GLFnjM-2fdBmd_" target="_blank">
+      <div class="drive-icon">💰</div><div class="drive-name">Finances</div><div class="drive-sub">01_FINANCES</div>
+    </a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/19j3qQSA8MMpCSs58SzpCKM8frE_5JP8d" target="_blank">
+      <div class="drive-icon">📦</div><div class="drive-name">Stocks</div><div class="drive-sub">02_STOCKS</div>
+    </a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1cBrbL2ULV4JkEBpbTF2IDSjlGBbt401c" target="_blank">
+      <div class="drive-icon">📣</div><div class="drive-name">Marketing</div><div class="drive-sub">03_MARKETING</div>
+    </a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1VKdZxK7uBbw0WSkzhRKNtV2-4-GaUotc" target="_blank">
+      <div class="drive-icon">⚙️</div><div class="drive-name">IA & Auto</div><div class="drive-sub">04_IA_AUTO</div>
+    </a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1xcPzP4kL8_RV2LvbPE4l9LF0frMcbPa_" target="_blank">
+      <div class="drive-icon">👥</div><div class="drive-name">Équipe</div><div class="drive-sub">05_EQUIPE</div>
+    </a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1M27exMsh8ghhba0hzwmRWm6C4o6ifxL0" target="_blank">
+      <div class="drive-icon">📋</div><div class="drive-name">Business Plan</div><div class="drive-sub">06_BP</div>
+    </a>
+  </div>
   <div class="spacer"></div>
 </div>
 
-<!-- PAGE OUTILS -->
-<div class="page" id="page-outils">
+<!-- ===== FINANCE ===== -->
+<div class="page" id="page-finance">
   <div class="hero">
-    <div class="hero-greeting">Outils & Services</div>
-    <div class="hero-title">Stack <em>du projet</em></div>
-    <div class="hero-sub">Tous les services en un clic</div>
+    <div class="hero-greeting">Données temps réel · Google Sheets</div>
+    <div class="hero-title"><em>Finance</em> & Ventes</div>
+    <div class="hero-sub">Connecté au Suivi Ventes Drive</div>
   </div>
-  <div class="section-title">🟢 Actifs</div>
-  <div class="status-list">
-    <div class="status-card" onclick="window.open('https://mail.google.com')">
-      <div class="status-dot dot-green"></div>
-      <div class="status-info"><div class="status-name">Gmail Pro</div><div class="status-desc">distrib.auto.ia@gmail.com</div></div>
-      <div class="status-chip chip-green">ACTIF</div>
+
+  <div class="live-badge"><div class="live-dot"></div> LIVE — Google Sheets</div>
+  <div class="refresh-btn" onclick="loadData()">🔄 Actualiser</div>
+
+  <div class="section-title">📊 Résumé financier</div>
+  <div class="finance-card">
+    <div class="finance-row">
+      <span class="finance-label">CA total</span>
+      <span class="finance-val green" id="f-total">…</span>
     </div>
-    <div class="status-card" onclick="window.open('https://drive.google.com')">
-      <div class="status-dot dot-green"></div>
-      <div class="status-info"><div class="status-name">Google Drive</div><div class="status-desc">6 dossiers · Tim / Guillaume / Aurore</div></div>
-      <div class="status-chip chip-green">ACTIF</div>
+    <div class="finance-row">
+      <span class="finance-label">CA aujourd'hui</span>
+      <span class="finance-val blue" id="f-today">…</span>
     </div>
-    <div class="status-card" onclick="window.open('https://make.com')">
-      <div class="status-dot dot-green"></div>
-      <div class="status-info"><div class="status-name">Make.com</div><div class="status-desc">2/2 scénarios · 1000 ops/mois gratuit</div></div>
-      <div class="status-chip chip-green">ACTIF</div>
+    <div class="finance-row">
+      <span class="finance-label">Objectif mensuel</span>
+      <span class="finance-val">800,00 €</span>
     </div>
-    <div class="status-card" onclick="window.open('https://slack.com')">
-      <div class="status-dot dot-green"></div>
-      <div class="status-info"><div class="status-name">Slack</div><div class="status-desc">#alertes · #ventes · #general</div></div>
-      <div class="status-chip chip-green">ACTIF</div>
-    </div>
-    <div class="status-card" onclick="window.open('https://app.brevo.com')">
-      <div class="status-dot dot-orange"></div>
-      <div class="status-info"><div class="status-name">Brevo</div><div class="status-desc">300 mails/jour · ⚠️ DKIM warning</div></div>
-      <div class="status-chip chip-orange">⚠️ DKIM</div>
+    <div class="finance-row">
+      <span class="finance-label">Avancement</span>
+      <span class="finance-val" id="f-pct" style="color:var(--warn)">…</span>
     </div>
   </div>
-  <div class="section-title">🔴 À créer</div>
-  <div class="status-list">
-    <div class="status-card">
-      <div class="status-dot dot-red"></div>
-      <div class="status-info"><div class="status-name">Nayax</div><div class="status-desc">Gestion distributeurs + paiements + webhook</div></div>
-      <div class="status-chip chip-red">À CRÉER</div>
+
+  <div class="section-title">🧾 Dernières ventes</div>
+  <div class="ventes-table">
+    <div class="ventes-header">
+      <span>Produit</span><span>Date</span><span>CA</span>
     </div>
-    <div class="status-card">
-      <div class="status-dot dot-grey"></div>
-      <div class="status-info"><div class="status-name">Canva</div><div class="status-desc">Visuels TikTok / YouTube</div></div>
-      <div class="status-chip chip-grey">OPTIONNEL</div>
+    <div id="ventes-body">
+      <div class="ventes-row"><span colspan="3" style="color:var(--muted)">Chargement…</span></div>
     </div>
   </div>
-  <div class="section-title">🔗 Liens rapides</div>
-  <div class="links-grid">
-    <a class="link-card" href="https://datastudio.google.com/reporting/5a14a1db-7fb7-4c1d-b7bc-5807c74a1529" target="_blank">
-      <div class="link-icon">📊</div><div class="link-name">Looker Studio</div><div class="link-url">Dashboard V1</div>
+
+  <div class="section-title">📁 Fichiers financiers</div>
+  <div class="drive-grid">
+    <a class="drive-card" href="https://docs.google.com/spreadsheets/d/192PAZwNbTJjv66fDK2Ohgo1P52OGWex5DfZgA___jGI/edit" target="_blank">
+      <div class="drive-icon">📈</div><div class="drive-name">Suivi Ventes</div><div class="drive-sub">Google Sheets</div>
     </a>
-    <a class="link-card" href="https://docs.google.com/spreadsheets" target="_blank">
-      <div class="link-icon">📋</div><div class="link-name">Google Sheets</div><div class="link-url">Suivi Ventes</div>
+    <a class="drive-card" href="https://docs.google.com/spreadsheets/d/1l0Yj1ow8xsYyyKjpRumeXCAo6LAXm7fR-0_-pnGSszo/edit" target="_blank">
+      <div class="drive-icon">📉</div><div class="drive-name">Dépenses</div><div class="drive-sub">Google Sheets</div>
     </a>
-    <a class="link-card" href="https://make.com" target="_blank">
-      <div class="link-icon">⚙️</div><div class="link-name">Make.com</div><div class="link-url">Automatisations</div>
+    <a class="drive-card" href="https://docs.google.com/spreadsheets/d/16iFNu6k4DIeyh9mKE2iPDfikY346viOyTJtafojT6ms/edit" target="_blank">
+      <div class="drive-icon">🎯</div><div class="drive-name">Projections</div><div class="drive-sub">Google Sheets</div>
     </a>
-    <a class="link-card" href="https://app.brevo.com" target="_blank">
-      <div class="link-icon">📧</div><div class="link-name">Brevo</div><div class="link-url">Email marketing</div>
+    <a class="drive-card" href="https://docs.google.com/document/d/1rQ9mkdcEM0exNBGIyhKfBkcLZpX1o997fN34Ms3nygc/edit" target="_blank">
+      <div class="drive-icon">📋</div><div class="drive-name">Business Plan</div><div class="drive-sub">Google Docs</div>
+    </a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1o1SPU6yoN0Js33uVS99W6jsqNOeMTV5d" target="_blank">
+      <div class="drive-icon">⚖️</div><div class="drive-name">Législation</div><div class="drive-sub">06_BP</div>
+    </a>
+    <a class="drive-card" href="https://datastudio.google.com/reporting/5a14a1db-7fb7-4c1d-b7bc-5807c74a1529" target="_blank">
+      <div class="drive-icon">📊</div><div class="drive-name">Looker Studio</div><div class="drive-sub">Dashboard V1</div>
     </a>
   </div>
   <div class="spacer"></div>
 </div>
 
-<!-- PAGE MAKE -->
+<!-- ===== MAKE ===== -->
 <div class="page" id="page-auto">
   <div class="hero">
     <div class="hero-greeting">Make.com · 2/2 actifs</div>
@@ -354,10 +305,7 @@
     <div class="hero-sub">Scénarios en production</div>
   </div>
   <div class="auto-card">
-    <div class="auto-header">
-      <div class="auto-num">#1</div>
-      <div class="auto-title">Vente Nayax → Sheets + Slack + Brevo</div>
-    </div>
+    <div class="auto-header"><div class="auto-num">#1</div><div class="auto-title">Vente Nayax → Sheets + Slack + Brevo</div></div>
     <div class="auto-trigger">⚡ Webhook custom (chaque vente)</div>
     <div class="auto-flow">
       <span class="flow-step">Webhook</span><span class="flow-arrow">→</span>
@@ -367,18 +315,232 @@
       <span class="flow-step">Brevo email</span>
     </div>
     <div class="auto-webhook" onclick="copyWebhook()">
-      <span>WEBHOOK URL :</span><br>
+      <span style="color:var(--accent2)">WEBHOOK URL :</span><br>
       https://hook.eu1.make.com/35ethfg4dn1mvcpw1b7afpcyij7ufgme
-      <br><span style="color:var(--accent);font-size:9px;margin-top:4px;display:block;">↑ Appuyer pour copier</span>
+      <br><span style="color:var(--accent);font-size:9px;margin-top:4px;display:block;">↑ Cliquer pour copier</span>
     </div>
   </div>
   <div class="auto-card">
-    <div class="auto-header">
-      <div class="auto-num">#2</div>
-      <div class="auto-title">Récap fusionné quotidien + hebdo</div>
-    </div>
+    <div class="auto-header"><div class="auto-num">#2</div><div class="auto-title">Récap fusionné quotidien + hebdo</div></div>
     <div class="auto-trigger">⚡ Schedule — chaque jour à 20h00</div>
     <div style="padding-left:10px;border-left:2px solid rgba(0,212,255,0.2);display:flex;flex-direction:column;gap:10px;">
       <div>
         <div style="font-size:10px;color:var(--muted);margin-bottom:4px;font-family:var(--mono);">ROUTE 1 — TOUJOURS</div>
-        <div class="auto-flow"><span class="flow-step">Slack #ventes</span><span style="font-size:10px;color:var(--muted);margin-left:4px;">récap journalier</span></
+        <div class="auto-flow"><span class="flow-step">Slack #ventes</span></div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:4px;font-family:var(--mono);">ROUTE 2 — DIMANCHE</div>
+        <div class="auto-flow"><span class="flow-step">Sheets week</span><span class="flow-arrow">+</span><span class="flow-step">month</span><span class="flow-arrow">→</span><span class="flow-step">Slack #general</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title">🔗 Liens directs</div>
+  <div class="status-list">
+    <a class="status-card" href="https://make.com" target="_blank">
+      <div class="status-dot dot-green"></div>
+      <div class="status-info"><div class="status-name">Make.com</div><div class="status-desc">Tableau de bord scénarios</div></div>
+      <div class="status-chip chip-green">OUVRIR ↗</div>
+    </a>
+    <a class="status-card" href="https://app.brevo.com" target="_blank">
+      <div class="status-dot dot-orange"></div>
+      <div class="status-info"><div class="status-name">Brevo</div><div class="status-desc">⚠️ DKIM/DMARC warning actif</div></div>
+      <div class="status-chip chip-orange">OUVRIR ↗</div>
+    </a>
+    <a class="status-card" href="https://docs.google.com/spreadsheets/d/192PAZwNbTJjv66fDK2Ohgo1P52OGWex5DfZgA___jGI/edit" target="_blank">
+      <div class="status-dot dot-green"></div>
+      <div class="status-info"><div class="status-name">Sheet Suivi Ventes</div><div class="status-desc">Source données Looker + API live</div></div>
+      <div class="status-chip chip-green">OUVRIR ↗</div>
+    </a>
+  </div>
+  <div class="spacer"></div>
+</div>
+
+<!-- ===== EQUIPE ===== -->
+<div class="page" id="page-equipe">
+  <div class="hero">
+    <div class="hero-greeting">3 membres</div>
+    <div class="hero-title">L'<em>équipe</em></div>
+    <div class="hero-sub">Rôles, accès et dossiers Drive</div>
+  </div>
+  <div class="team-card">
+    <div class="team-avatar" style="background:rgba(255,107,53,0.1)">📊</div>
+    <div>
+      <div class="team-name">Aurore</div>
+      <div class="team-role">Direction · R&D</div>
+      <div class="team-tags"><span class="team-tag">Direction</span><span class="team-tag">R&D</span><span class="team-tag">Veille marché</span><span class="team-tag">Stratégie</span></div>
+    </div>
+  </div>
+  <a class="drive-card" href="https://drive.google.com/drive/folders/1Ei303bCx6xoAFOOWupFwM7VoHXOim27m" target="_blank" style="margin:0 20px 10px;display:flex;flex-direction:row;align-items:center;gap:12px;">
+    <div style="font-size:18px;">📁</div><div><div class="drive-name" style="font-size:13px;">Dossier Aurore</div><div class="drive-sub">05_EQUIPE/Aurore</div></div>
+  </a>
+  <div class="team-card">
+    <div class="team-avatar" style="background:rgba(0,212,255,0.1)">👨‍💻</div>
+    <div>
+      <div class="team-name">Tim (Timothée Braud)</div>
+      <div class="team-role">IA · Tech · Finance · Automatisation</div>
+      <div class="team-tags"><span class="team-tag">R&D IA</span><span class="team-tag">Tech</span><span class="team-tag">Finance</span><span class="team-tag">Make</span><span class="team-tag">PWA</span></div>
+    </div>
+  </div>
+  <a class="drive-card" href="https://drive.google.com/drive/folders/1fdyHXj_nnJpcFBptzme3dhssjpCvMtRg" target="_blank" style="margin:0 20px 10px;display:flex;flex-direction:row;align-items:center;gap:12px;">
+    <div style="font-size:18px;">📁</div><div><div class="drive-name" style="font-size:13px;">Dossier Tim</div><div class="drive-sub">05_EQUIPE/Tim</div></div>
+  </a>
+  <div class="team-card">
+    <div class="team-avatar" style="background:rgba(0,255,157,0.1)">🔧</div>
+    <div>
+      <div class="team-name">Guillaume Merchier</div>
+      <div class="team-role">Terrain · Fournisseurs · Dev Commercial</div>
+      <div class="team-tags"><span class="team-tag">Réassort</span><span class="team-tag">Fournisseurs</span><span class="team-tag">Étude marché</span><span class="team-tag">Emplacements</span></div>
+    </div>
+  </div>
+  <a class="drive-card" href="https://drive.google.com/drive/folders/1bgIRPJWYlu-Z5P8uuX1roifqlj30JYk2" target="_blank" style="margin:0 20px 10px;display:flex;flex-direction:row;align-items:center;gap:12px;">
+    <div style="font-size:18px;">📁</div><div><div class="drive-name" style="font-size:13px;">Dossier Guillaume</div><div class="drive-sub">05_EQUIPE/Guillaume</div></div>
+  </a>
+  <div class="section-title">📂 Tous les dossiers</div>
+  <div class="drive-grid">
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1Mw7n-0eurHyEVws3Y092batDURFkZPVX" target="_blank"><div class="drive-icon">🏠</div><div class="drive-name">Racine</div><div class="drive-sub">DISTRIB AUTO IA/</div></a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1jBCT5jenKDc1cKcyE_GLFnjM-2fdBmd_" target="_blank"><div class="drive-icon">💰</div><div class="drive-name">Finances</div><div class="drive-sub">01_FINANCES</div></a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/19j3qQSA8MMpCSs58SzpCKM8frE_5JP8d" target="_blank"><div class="drive-icon">📦</div><div class="drive-name">Stocks</div><div class="drive-sub">02_STOCKS</div></a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1cBrbL2ULV4JkEBpbTF2IDSjlGBbt401c" target="_blank"><div class="drive-icon">📣</div><div class="drive-name">Marketing</div><div class="drive-sub">03_MARKETING</div></a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1VKdZxK7uBbw0WSkzhRKNtV2-4-GaUotc" target="_blank"><div class="drive-icon">⚙️</div><div class="drive-name">IA & Auto</div><div class="drive-sub">04_IA_AUTO</div></a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1M27exMsh8ghhba0hzwmRWm6C4o6ifxL0" target="_blank"><div class="drive-icon">📋</div><div class="drive-name">Business Plan</div><div class="drive-sub">06_BP</div></a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1o1SPU6yoN0Js33uVS99W6jsqNOeMTV5d" target="_blank"><div class="drive-icon">⚖️</div><div class="drive-name">Législation</div><div class="drive-sub">06_BP/Légis.</div></a>
+    <a class="drive-card" href="https://drive.google.com/drive/folders/1F4Ot1ViMaTBPL3JXUyqq8qWmpGPjuWmI" target="_blank"><div class="drive-icon">🔄</div><div class="drive-name">Workflows</div><div class="drive-sub">04_IA/Workflows</div></a>
+  </div>
+  <div class="spacer"></div>
+</div>
+
+<!-- ===== TODO ===== -->
+<div class="page" id="page-todo">
+  <div class="hero">
+    <div class="hero-greeting">Checklist projet</div>
+    <div class="hero-title"><em>To-Do</em> List</div>
+    <div class="hero-sub">Synchronisé Logbook · 26/04/2026</div>
+  </div>
+  <div class="section-title">🔴 Critique</div>
+  <div class="todo-card">
+    <div class="todo-item" onclick="toggleTodo(this)" data-id="nayax"><div class="todo-check"></div><div class="todo-text">Créer compte Nayax + obtenir webhook ventes réel</div><div class="todo-prio prio-high">CRITIQUE</div></div>
+    <div class="todo-item" onclick="toggleTodo(this)" data-id="brevo-mail"><div class="todo-check"></div><div class="todo-text">Remplacer email Brevo par fournisseur réel</div><div class="todo-prio prio-high">HAUT</div></div>
+    <div class="todo-item" onclick="toggleTodo(this)" data-id="dkim"><div class="todo-check"></div><div class="todo-text">Configurer domaine perso Brevo (fix DKIM/DMARC)</div><div class="todo-prio prio-high">HAUT</div></div>
+  </div>
+  <div class="section-title">🟡 Moyen terme</div>
+  <div class="todo-card">
+    <div class="todo-item" onclick="toggleTodo(this)" data-id="sheets-clean"><div class="todo-check"></div><div class="todo-text">Nettoyer lignes 2–6 Sheet Suivi Ventes (#ERROR!)</div><div class="todo-prio prio-med">MED</div></div>
+    <div class="todo-item" onclick="toggleTodo(this)" data-id="looker"><div class="todo-check"></div><div class="todo-text">Ajouter widgets + plages cibles au Dashboard Looker</div><div class="todo-prio prio-med">MED</div></div>
+    <div class="todo-item" onclick="toggleTodo(this)" data-id="emplacements"><div class="todo-check"></div><div class="todo-text">Sécuriser premiers emplacements machines</div><div class="todo-prio prio-med">MED</div></div>
+    <div class="todo-item" onclick="toggleTodo(this)" data-id="bp"><div class="todo-check"></div><div class="todo-text">Remplir les 12 sections du Business Plan V1</div><div class="todo-prio prio-med">MED</div></div>
+    <div class="todo-item" onclick="toggleTodo(this)" data-id="fournisseurs"><div class="todo-check"></div><div class="todo-text">Contacter GPA/MFS + test achat direct Vintimille</div><div class="todo-prio prio-med">MED</div></div>
+  </div>
+  <div class="section-title">✅ Déjà fait</div>
+  <div class="todo-card">
+    <div class="todo-item done"><div class="todo-check">✓</div><div class="todo-text">Gmail + Drive + Slack + Make configurés</div><div class="todo-prio prio-low">DONE</div></div>
+    <div class="todo-item done"><div class="todo-check">✓</div><div class="todo-text">2 scénarios Make actifs</div><div class="todo-prio prio-low">DONE</div></div>
+    <div class="todo-item done"><div class="todo-check">✓</div><div class="todo-text">Dashboard Looker Studio V1</div><div class="todo-prio prio-low">DONE</div></div>
+    <div class="todo-item done"><div class="todo-check">✓</div><div class="todo-text">PWA v4 live — données Sheets en temps réel</div><div class="todo-prio prio-low">DONE</div></div>
+    <div class="todo-item done"><div class="todo-check">✓</div><div class="todo-text">GitHub Actions — déploiement automatique</div><div class="todo-prio prio-low">DONE</div></div>
+    <div class="todo-item done"><div class="todo-check">✓</div><div class="todo-text">Dossier réglementaire Word créé</div><div class="todo-prio prio-low">DONE</div></div>
+    <div class="todo-item done"><div class="todo-check">✓</div><div class="todo-text">Rôles & Responsabilités définis + Drive</div><div class="todo-prio prio-low">DONE</div></div>
+    <div class="todo-item done"><div class="todo-check">✓</div><div class="todo-text">Business Plan V1 — 12 sections rédigées</div><div class="todo-prio prio-low">DONE</div></div>
+  </div>
+  <div class="spacer"></div>
+</div>
+
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="showPage('home',this)"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></div>
+  <div class="nav-item" onclick="showPage('finance',this)"><div class="nav-icon">💰</div><div class="nav-label">Finance</div></div>
+  <div class="nav-item" onclick="showPage('auto',this)"><div class="nav-icon">⚡</div><div class="nav-label">Make</div></div>
+  <div class="nav-item" onclick="showPage('equipe',this)"><div class="nav-icon">👥</div><div class="nav-label">Équipe</div></div>
+  <div class="nav-item" onclick="showPage('todo',this)"><div class="nav-icon">✅</div><div class="nav-label">To-Do</div></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbxZ3-M4hWjGotZqYc_-NoduFeo7w5L2S7wyFiGim8vVE1CDyw_U2AyKkoo6eclXcSGV/exec';
+
+function showPage(name, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  el.classList.add('active');
+  document.querySelector('.app-scroll').scrollTop = 0;
+}
+
+document.getElementById('live-date').textContent = new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'});
+
+async function loadData() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+
+    // HOME
+    const pct = data.pct || 0;
+    document.getElementById('ca-bar').style.width = pct + '%';
+    document.getElementById('ca-pct').textContent = pct + '%';
+    document.getElementById('ca-current').textContent = parseFloat(data.totalCA).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' €';
+    document.getElementById('kpi-today').textContent = parseFloat(data.ventesToday).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' €';
+
+    // FINANCE
+    document.getElementById('f-total').textContent = parseFloat(data.totalCA).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' €';
+    document.getElementById('f-today').textContent = parseFloat(data.ventesToday).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' €';
+    document.getElementById('f-pct').textContent = pct + '%';
+
+    // VENTES TABLE
+    const tbody = document.getElementById('ventes-body');
+    if (data.lastSales && data.lastSales.length > 0) {
+      tbody.innerHTML = data.lastSales.map(s => {
+        const d = s.date ? new Date(s.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'}) : '—';
+        return `<div class="ventes-row"><span>${s.produit||'—'}</span><span>${d}</span><span style="font-family:var(--mono);color:var(--accent2);font-weight:700;">${parseFloat(s.ca).toFixed(2)} €</span></div>`;
+      }).join('');
+    } else {
+      tbody.innerHTML = '<div class="ventes-row"><span style="color:var(--muted)">Aucune vente</span><span></span><span></span></div>';
+    }
+
+    showToast('Données actualisées ✓');
+  } catch(e) {
+    showToast('Erreur chargement données');
+    document.getElementById('ca-pct').textContent = '—';
+    document.getElementById('ca-current').textContent = 'Erreur API';
+  }
+}
+
+// Chargement auto au démarrage
+loadData();
+// Refresh auto toutes les 5 minutes
+setInterval(loadData, 5 * 60 * 1000);
+
+function toggleTodo(el) {
+  el.classList.toggle('done');
+  el.querySelector('.todo-check').textContent = el.classList.contains('done') ? '✓' : '';
+  try {
+    const todos = {};
+    document.querySelectorAll('[data-id]').forEach(e => { todos[e.dataset.id] = e.classList.contains('done'); });
+    localStorage.setItem('distrib_todos_v4', JSON.stringify(todos));
+  } catch(e){}
+}
+
+try {
+  const saved = JSON.parse(localStorage.getItem('distrib_todos_v4') || '{}');
+  Object.keys(saved).forEach(id => {
+    if (saved[id]) {
+      const el = document.querySelector('[data-id="'+id+'"]');
+      if (el) { el.classList.add('done'); el.querySelector('.todo-check').textContent = '✓'; }
+    }
+  });
+} catch(e){}
+
+function copyWebhook() {
+  navigator.clipboard.writeText('https://hook.eu1.make.com/35ethfg4dn1mvcpw1b7afpcyij7ufgme')
+    .then(() => showToast('Webhook copié ✓'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
